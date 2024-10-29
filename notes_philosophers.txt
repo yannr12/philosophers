@@ -1,0 +1,43 @@
+Notes Philosophers
+
+Si le parametre optionnel n'est pas renseigne, les philosophers se partage
+les mutex ? Il se bloque et se debloque au fur et a mesure de facon optimise
+et le philosophers qui est le plus proche de mourrir prend en priorite la
+fourchette quand une fourchette se debloque.
+
+Il faut prendre en consideration qu'un philosopher ne peut prendre en main que
+sa fourchette de droite et de gauche, donc il y a un contexte de la position
+du joueur sur la table qui est important par rapport a l'etat de son philosopher
+de droite et de gauche.
+-> Lorsqu'un philosopher mange, ses philosophers de gauche et de droite ne 
+peuvent pas manger.
+
+Le principal enjeu du probleme est d'organiser l'action de manger interdependante
+entre tout les philosophers, le but est que les philosophers s'organisent par
+eux-memes.
+
+Un affichage des evenements dans leurs temporalite (en milliseconde) doit etre
+ajoutee.
+
+On considere un evenement a chaque fois qu'un philosopher change d'etat parmi
+les suivants : prendre une fourchette (mutex), manger, dormir, penser, mourir.
+
+Essayer deja avec deux philosophers.
+
+
+
+valgrind --tool=helgrind
+
+
+
+Au debut, faire manger uniquement les philosophes paires, puis les impairs 
+entre eux, puis le dernier si le nombre total de philo est impair.
+
+
+
+
+
+Etapes pour faire le philosophers :
+
+1 - Initialiser et lancer le nombre de thread correspondant au nombre de philosophes
+2 - 

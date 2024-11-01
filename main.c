@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:21:49 by yrio              #+#    #+#             */
-/*   Updated: 2024/10/15 15:12:26 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/01 16:27:57 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,25 @@ int	wait_threads(t_program *prog)
 	return (1);
 }
 
-void *thread_routine()
+void *thread_routine(void *data)
 {
-	pthread_t tid;
+	pthread_t	tid;
+	t_philo		*philo;
 
+	philo = (t_philo *)data;
 	tid = pthread_self();
-	printf("%sThread [%ld]: Salut%s\n",
-	YELLOW, tid, NC);
+	pthread_mutex_lock(&philo->data->write_lock);
+	philo->data->count = philo->data->count + 1;
+	printf("count : %d\n", philo->data->count);
+	printf("%sThread [%ld]: Salut%s\n", YELLOW, tid, NC);
+	pthread_mutex_unlock(&philo->data->write_lock);
+	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(philo->l_fork);
+	sleep(2);
+	printf("%li %i is eating\n", get_time() - philo->data->start_time, 
+		philo->id);
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
 	return (NULL); // Le thread termine ici.
 }
 
@@ -41,19 +53,18 @@ int launch_philo(t_program *prog)
 	int		  num_philos;
 	int		  count;
 	
+	prog->start_time = get_time();
 	num_philos = prog->num_of_philos;
 	count = 0;
 	while (count < num_philos)
 	{
-		pthread_create(&tid[count], NULL, thread_routine, NULL);
-		printf("Main: Creation du thread [%ld]\n", tid[count]);
+		pthread_create(&tid[count], NULL, thread_routine, &prog->philos[count]);
 		count++;
 	}
 	count = 0;
 	while (count < num_philos)
 	{
 		pthread_join(tid[count], NULL);
-		printf("Main: Union du premier thread [%ld]\n", tid[count]);
 		count++;
 	}
 	return (0);

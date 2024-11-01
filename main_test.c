@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:07 by yrio              #+#    #+#             */
-/*   Updated: 2024/04/02 10:06:18 by yrio             ###   ########.fr       */
+/*   Updated: 2024/10/31 09:36:15 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,34 +97,49 @@ void	*thread_4_routine(void *data)
 
 int	main(void)
 {
-	pthread_t	tid1;	// Identifiant du premier thread
-	pthread_t	tid2;	// Identifiant du second thread
-	t_locks		locks;	// Structure contenant 2 mutex
+	// main test pour mesurer le temps ecouler avec get_time
+	long	start_time;
+	long	end_time;
+	long	time;
 
-	locks.count = 0;
-	// Initialisation des deux mutex :
-	pthread_mutex_init(&locks.lock_1, NULL);
-	pthread_mutex_init(&locks.lock_2, NULL);
-	// Création des threads :
-	pthread_create(&tid1, NULL, thread_3_routine, &locks);
-	printf("Main: Creation du premier thread [%ld]\n", tid1);
-	pthread_create(&tid2, NULL, thread_4_routine, &locks);
-	printf("Main: Creation du second thread [%ld]\n", tid2);
-	// Union des threads :
-	pthread_join(tid1, NULL);
-	printf("Main: Union du premier thread [%ld]\n", tid1);
-	pthread_join(tid2, NULL);
-	printf("Main: Union du second thread [%ld]\n", tid2);
-	// Évaluation du résultat :
-	if (locks.count == 2)
-		printf("%sMain: OK: Le compte est %d\n", GREEN, locks.count);
-	else
-		printf("%sMain: ERREUR: Le compte est%u\n", RED, locks.count);
-	// Destruction des mutex :
-	pthread_mutex_destroy(&locks.lock_1);
-	pthread_mutex_destroy(&locks.lock_2);
+	start_time = get_time();
+	sleep(2);
+	time = get_time();
+	end_time = time - start_time;
+	printf("start time : %ld, time : %ld, end time : %ld", start_time, time, end_time);
 	return (0);
 }
+
+// int	main(void)
+// {
+// 	pthread_t	tid1;	// Identifiant du premier thread
+// 	pthread_t	tid2;	// Identifiant du second thread
+// 	t_locks		locks;	// Structure contenant 2 mutex
+
+// 	locks.count = 0;
+// 	// Initialisation des deux mutex :
+// 	pthread_mutex_init(&locks.lock_1, NULL);
+// 	pthread_mutex_init(&locks.lock_2, NULL);
+// 	// Création des threads :
+// 	pthread_create(&tid1, NULL, thread_3_routine, &locks);
+// 	printf("Main: Creation du premier thread [%ld]\n", tid1);
+// 	pthread_create(&tid2, NULL, thread_4_routine, &locks);
+// 	printf("Main: Creation du second thread [%ld]\n", tid2);
+// 	// Union des threads :
+// 	pthread_join(tid1, NULL);
+// 	printf("Main: Union du premier thread [%ld]\n", tid1);
+// 	pthread_join(tid2, NULL);
+// 	printf("Main: Union du second thread [%ld]\n", tid2);
+// 	// Évaluation du résultat :
+// 	if (locks.count == 2)
+// 		printf("%sMain: OK: Le compte est %d\n", GREEN, locks.count);
+// 	else
+// 		printf("%sMain: ERREUR: Le compte est%u\n", RED, locks.count);
+// 	// Destruction des mutex :
+// 	pthread_mutex_destroy(&locks.lock_1);
+// 	pthread_mutex_destroy(&locks.lock_2);
+// 	return (0);
+// }
 
 // int	main(void)
 // {

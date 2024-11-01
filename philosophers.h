@@ -6,12 +6,14 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:00 by yrio              #+#    #+#             */
-/*   Updated: 2024/10/15 15:07:38 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/01 16:12:18 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
+
+
 
 #include <pthread.h>
 #include <stdio.h>
@@ -87,6 +89,7 @@ int	ft_isnumber(char *str);
 void	*monitor(void *data);
 void	*routine_philo(void *data);
 void	*routine_philo_test(void *data);
+int		eat_routine(t_philo *philo);
 
 // init
 void	init_prog(t_program *prog, char **argv);

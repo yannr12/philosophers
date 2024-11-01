@@ -41,3 +41,8 @@ Etapes pour faire le philosophers :
 
 1 - Initialiser et lancer le nombre de thread correspondant au nombre de philosophes
 2 - 
+
+
+
+Si le philo id est impair il pense directement, 
+Si le philo id est pair il mange et dort directement.

@@ -46,3 +46,24 @@ Etapes pour faire le philosophers :
 
 Si le philo id est impair il pense directement, 
 Si le philo id est pair il mange et dort directement.
+
+
+
+
+A regler :
+
+- Avec helgrind : lock order [...] before [...] violated
+
+
+
+Pour check la mort on fait :
+
+le moment actuel - le moment du dernier repas >= le temps pour mourrir
+
+si le philo n'a pas encore mange :
+
+
+Est-ce que lorsqu'un philo meurt en ayant pris une fourchette, il doit sortir directement
+de la fonction, ou on le laisse afficher qu'il a pris la 2e fourchette et a mange ?
+Ca parait evident qu'il faut qu'il s'arrete au moment ou il meurt mais comment faire pour
+arreter la fonction avant d'afficher qu'il a pris la 2e fourchette et qu'il a mange ?

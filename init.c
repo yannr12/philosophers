@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:21:59 by yrio              #+#    #+#             */
-/*   Updated: 2024/11/01 12:27:11 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/04 16:13:56 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ void	init_philo(t_program *prog, char **argv)
 		prog->philos[i].data = prog;
 		prog->philos[i].id = i + 1;
 		prog->philos[i].meals_eaten = 0;
-		prog->philos[i].last_meal = 0;
-		prog->philos[i].dead = prog->dead_flag;
+		prog->philos[i].last_meal = get_time();
+		prog->philos[i].is_eating = 0;
+		prog->philos[i].dead = 0;
 		prog->philos[i].r_fork = &prog->forks[i];
 		if (i != ft_atoi(argv[1]) - 1)
 			prog->philos[i].l_fork = &prog->forks[i + 1];
@@ -51,6 +52,7 @@ void	init_prog(t_program *prog, char **argv)
 	prog->monitor_ready = 0;
 	prog->count = 0;
 	prog->start_time = -1;
+	prog->finish = 0;
 	prog->num_of_philos = ft_atoi(argv[1]);
 	prog->time_to_die = ft_atoi(argv[2]);
 	prog->time_to_eat = ft_atoi(argv[3]);

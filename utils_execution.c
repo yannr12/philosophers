@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 09:42:04 by yrio              #+#    #+#             */
-/*   Updated: 2024/05/22 09:54:06 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/04 17:49:00 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,51 @@ long	get_time(void)
 	microsecondes = tv.tv_usec;
 	time = 1000 * secondes + microsecondes / 1000;
 	return (time);
+}
+
+void	print_message(char *str, t_philo *philo)
+{
+	size_t	time;
+	
+	if (dead_loop(philo))
+		return ;
+	pthread_mutex_lock(&philo->data->write_lock);
+	time = get_time() - philo->data->start_time;
+	printf("%zu %i %s\n", time, philo->id, str);
+	pthread_mutex_unlock(&philo->data->write_lock);
+}
+
+void	print_died(char *str, t_philo *philo)
+{
+	size_t	time;
+
+	pthread_mutex_lock(&philo->data->write_lock);
+	time = get_time() - philo->data->start_time;
+	printf("%zu %i %s\n", time, philo->id, str);
+	pthread_mutex_unlock(&philo->data->write_lock);
+}
+
+void	ft_usleep(int	time_sleep)
+{
+	long	start_time;
+	
+	start_time = get_time();
+	while (get_time() - start_time < time_sleep)
+		usleep(500);
+}
+
+int	dead_loop(t_philo *philo)
+{
+	int	count;
+	
+	count = 0;
+	while (count < philo->data->num_of_philos)
+	{
+		if (philo->data->philos[count].dead)
+			return (1);
+		count++;
+	}
+	if (philo->data->finish)
+		return (1);
+	return (0);
 }

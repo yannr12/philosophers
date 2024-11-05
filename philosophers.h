@@ -6,48 +6,29 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 16:02:00 by yrio              #+#    #+#             */
-/*   Updated: 2024/11/04 17:49:18 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/05 17:25:22 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+# include <pthread.h>
+# include <stdio.h>
+# include <string.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/time.h>
 
+# define NC	"\e[0m"
+# define YELLOW	"\e[1;33m"
+# define BYELLOW	"\e[1;33m"
+# define RED	"\e[31m"
+# define GREEN	"\e[32m"
 
-#include <pthread.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/time.h>
+# define MAX_PHILO 200
 
-#define NC	"\e[0m"
-#define YELLOW	"\e[1;33m"
-#define BYELLOW	"\e[1;33m"
-#define RED	"\e[31m"
-#define GREEN	"\e[32m"
-
-#define MAX_PHILO 200
-
-// libft
-int	ft_atoi(const char *str);
-int	ft_isdigit(int c);
-
-typedef	struct s_counter
-{
-	pthread_mutex_t	count_mutex;
-	unsigned int	count;
-} t_counter;
-
-typedef	struct s_locks
-{
-	pthread_mutex_t	lock_1;
-	pthread_mutex_t	lock_2;
-	unsigned int	count;
-}	t_locks;
-
-typedef struct s_program t_program;
+typedef struct s_program	t_program;
 
 typedef struct s_philo
 {
@@ -80,13 +61,13 @@ typedef struct s_program
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	create_lock;
 	pthread_mutex_t	write_lock;
-	pthread_mutex_t *forks;
+	pthread_mutex_t	*forks;
 	t_philo			*philos;
 }					t_program;
 
 // utils_args
-int	check_args(int argc, char **argv);
-int	ft_isnumber(char *str);
+int		check_args(int argc, char **argv);
+int		ft_isnumber(char *str);
 
 //routine
 void	*routine_philo(void *data);
@@ -102,8 +83,12 @@ void	init_prog(t_program *prog, char **argv);
 long	get_time(void);
 void	print_message(char *str, t_philo *philo);
 void	print_died(char *str, t_philo *philo);
-void	ft_usleep(int	time_sleep);
+void	ft_usleep(int time_sleep);
 int		dead_loop(t_philo *philo);
+
+// utils_libft
+int		ft_atoi(const char *str);
+int		ft_isdigit(int c);
 
 // monitor
 int		check_death(t_program *prog);

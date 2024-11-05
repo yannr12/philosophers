@@ -53,6 +53,8 @@ Si le philo id est pair il mange et dort directement.
 A regler :
 
 - Avec helgrind : lock order [...] before [...] violated
+- J'ai un dernier element aloue en memoire que je ne free pas correctement, lorsque j'Essaye
+de free la structure il me met un "Invalid free() / delete / delete[] / realloc()"
 
 
 
@@ -67,3 +69,10 @@ Est-ce que lorsqu'un philo meurt en ayant pris une fourchette, il doit sortir di
 de la fonction, ou on le laisse afficher qu'il a pris la 2e fourchette et a mange ?
 Ca parait evident qu'il faut qu'il s'arrete au moment ou il meurt mais comment faire pour
 arreter la fonction avant d'afficher qu'il a pris la 2e fourchette et qu'il a mange ?
+
+
+
+Quand c'est l'id 1 l'ordre c'est a gauche d'abord et la droite apres
+
+Quand c'est l'id 2 la gauche du 1 devient sa droite et sa droite devient sa 
+gauche.

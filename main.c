@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:21:49 by yrio              #+#    #+#             */
-/*   Updated: 2024/11/04 17:30:33 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/05 17:19:43 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	wait_threads(t_program *prog)
 	return (1);
 }
 
-void *thread_routine(void *data)
+void	*thread_routine(void *data)
 {
 	t_philo		*philo;
 
@@ -44,15 +44,16 @@ void *thread_routine(void *data)
 	return (NULL);
 }
 
-int launch_philo(t_program *prog)
+int	launch_philo(t_program *prog)
 {
 	pthread_t	observer;
-	pthread_t	tid[prog->num_of_philos];
-	int		  	num_philos;
-	int		  	count;
-	
+	pthread_t	*tid;
+	int			num_philos;
+	int			count;
+
 	prog->start_time = get_time();
 	num_philos = prog->num_of_philos;
+	tid = malloc((num_philos + 1) * sizeof(pthread_t));
 	count = 0;
 	pthread_create(&observer, NULL, monitor, prog);
 	while (count < num_philos)
@@ -66,7 +67,20 @@ int launch_philo(t_program *prog)
 		pthread_join(tid[count], NULL);
 		count++;
 	}
+	pthread_join(observer, NULL);
+	free(tid);
 	return (0);
+}
+
+void	free_struct(t_program *prog)
+{
+	pthread_mutex_destroy(&prog->dead_lock);
+	pthread_mutex_destroy(&prog->meal_lock);
+	pthread_mutex_destroy(&prog->create_lock);
+	pthread_mutex_destroy(&prog->write_lock);
+	pthread_mutex_destroy(prog->forks);
+	free(prog->philos);
+	free(prog->forks);
 }
 
 int	main(int argc, char **argv)
@@ -80,6 +94,6 @@ int	main(int argc, char **argv)
 	}
 	init_prog(&prog, argv);
 	launch_philo(&prog);
-	printf("Simulation ended\n");
+	free_struct(&prog);
 	return (1);
 }

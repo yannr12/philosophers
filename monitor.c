@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:40:41 by yrio              #+#    #+#             */
-/*   Updated: 2024/11/06 13:06:39 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/08 12:33:17 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	check_death(t_program *prog)
 	{
 		if (get_time() - prog->philos[count].last_meal
 			>= (long)prog->time_to_die)
-			// && prog->philos[count].is_eating == 0
 		{
 			pthread_mutex_lock(&prog->dead_lock);
 			prog->philos[count].dead = 1;

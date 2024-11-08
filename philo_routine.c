@@ -6,7 +6,7 @@
 /*   By: yrio <yrio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 11:58:21 by yrio              #+#    #+#             */
-/*   Updated: 2024/11/08 12:34:21 by yrio             ###   ########.fr       */
+/*   Updated: 2024/11/08 17:08:47 by yrio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,15 @@ int	eat_routine(t_philo *philo)
 
 int	sleep_routine(t_philo *philo)
 {
+	long	start_sleep;
+
+	start_sleep = get_time();
 	print_message("is sleeping", philo);
 	ft_usleep(philo->data->time_to_sleep);
+	pthread_mutex_lock(&philo->data->dead_lock);
+	while (get_time() - start_sleep <= (long)philo->data->time_to_sleep
+		&& philo->dead != 1)
+		ft_usleep(1);
+	pthread_mutex_unlock(&philo->data->dead_lock);
 	return (1);
 }
